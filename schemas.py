@@ -44,11 +44,3 @@ class PostResponse(PostBase):
     user_id: int
     date_posted: datetime
     author: UserResponse
-
-
-
-
-    user_update = user_data.model_dump(exclude_unset=True)
-
-    for field, value in user_update.items():
-        setattr(user, field, value)
