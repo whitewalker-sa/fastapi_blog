@@ -8,7 +8,7 @@ PROFILE_PICS_DIR = Path("media/profile_pics")
 
 def process_profile_image(content: bytes) -> str:
     with Image.open(BytesIO(content)) as original:
-        img = ImageOps.exif.transpose(original)
+        img = ImageOps.exif_transpose(original)
 
         img = ImageOps.fit(img, (300, 300), method=Image.Resampling.LANCZOS)
 

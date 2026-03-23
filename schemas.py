@@ -1,5 +1,6 @@
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, EmailStr
+
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class UserBase(BaseModel):
@@ -27,7 +28,6 @@ class UserPrivate(UserPublic):
 class UserUpdate(BaseModel):
     username: str | None = Field(default=None, min_length=1, max_length=50)
     email: EmailStr | None = Field(default=None, max_length=120)
-    
 
 
 class Token(BaseModel):
@@ -46,12 +46,21 @@ class PostCreate(PostBase):
 
 class PostUpdate(BaseModel):
     title: str | None = Field(default=None, min_length=1, max_length=100)
-    content: str = Field(default=None, min_length=1)
+    content: str | None = Field(default=None, min_length=1)
 
 
 class PostResponse(PostBase):
     model_config = ConfigDict(from_attributes=True)
+
     id: int
     user_id: int
     date_posted: datetime
     author: UserPublic
+
+
+class PaginatedPostsResponse(BaseModel):
+    posts: list[PostResponse]
+    total: int
+    skip: int
+    limit: int
+    has_more: bool
